@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.inputmethodservice.InputMethodService
 import android.os.Handler
 import android.os.Looper
+import android.os.Vibrator
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.core.content.ContextCompat
@@ -19,7 +20,7 @@ import com.shehraan.superwhispermini.util.TimeMetrics
 
 /**
  * Voice Input Method Service - the core IME.
- * 
+ *
  * Responsibilities:
  * - Own the IME lifecycle
  * - Inflate the mic-first keyboard UI
@@ -27,50 +28,50 @@ import com.shehraan.superwhispermini.util.TimeMetrics
  * - Show partial transcript previews
  * - Commit final text to focused field
  * - Save to local history
- * 
+ *
  * Does NOT contain recognition or formatting logic directly.
  */
 class VoiceImeService : InputMethodService(), ImeKeyboardView.KeyboardListener {
-    
+
     private lateinit var keyboardView: ImeKeyboardView
     private lateinit var recognizerEngine: RecognizerEngine
     private lateinit var formatterPipeline: FormatterPipeline
     private lateinit var inputCommitter: InputCommitter
     private val mainHandler = Handler(Looper.getMainLooper())
-    
+
     private var currentPartialText: String = ""
     private var finalRawText: String = ""
     private var timeMetrics: TimeMetrics? = null
     private var isRecording: Boolean = false
-    
+
     override fun onCreate() {
         super.onCreate()
         Logger.d("VoiceImeService", "onCreate")
-        
+
         recognizerEngine = AndroidOnDeviceRecognizer(this)
         formatterPipeline = FormatterPipeline(this)
         inputCommitter = InputCommitter(this)
-        
+
         // Check if on-device recognition is available
         if (!recognizerEngine.isAvailable()) {
             Logger.w("VoiceImeService", "On-device recognition not available on this device")
         }
     }
-    
+
     override fun onCreateInputView(): View {
         Logger.d("VoiceImeService", "onCreateInputView")
         keyboardView = ImeKeyboardView(this)
         keyboardView.keyboardListener = this
         return keyboardView
     }
-    
+
     override fun onStartInputView(info: EditorInfo, restarting: Boolean) {
         super.onStartInputView(info, restarting)
         Logger.d("VoiceImeService", "onStartInputView")
         keyboardView.clearPreview()
         keyboardView.clearStatus()
     }
-    
+
     override fun onFinishInputView(finishingInput: Boolean) {
         super.onFinishInputView(finishingInput)
         Logger.d("VoiceImeService", "onFinishInputView")
@@ -78,42 +79,45 @@ class VoiceImeService : InputMethodService(), ImeKeyboardView.KeyboardListener {
             stopRecording()
         }
     }
-    
+
     override fun onDestroy() {
         super.onDestroy()
         Logger.d("VoiceImeService", "onDestroy")
         recognizerEngine.destroy()
     }
-    
+
     // -- KeyboardListener Implementation --
-    
+
     override fun onMicButtonPressed() {
         Logger.d("VoiceImeService", "Mic button pressed")
-        
+
         if (!hasRecordAudioPermission()) {
             keyboardView.showError("Microphone permission required")
             return
         }
-        
+
         if (!recognizerEngine.isAvailable()) {
             keyboardView.showError("On-device recognition unavailable")
             return
         }
-        
+
+        // Haptic feedback on press
+        vibrate(50)
+
         startRecording()
     }
-    
+
     override fun onMicButtonReleased() {
         Logger.d("VoiceImeService", "Mic button released")
         if (isRecording) {
             stopRecording()
         }
     }
-    
+
     override fun onModeToggled(mode: DictationMode) {
         Logger.d("VoiceImeService", "Mode toggled to: $mode")
     }
-    
+
     override fun onSettingsClicked() {
         Logger.d("VoiceImeService", "Settings clicked - opening MainActivity")
         val intent = android.content.Intent(this, com.shehraan.superwhispermini.settings.MainActivity::class.java).apply {
@@ -121,20 +125,20 @@ class VoiceImeService : InputMethodService(), ImeKeyboardView.KeyboardListener {
         }
         startActivity(intent)
     }
-    
+
     override fun onBackspaceClicked() {
         currentInputConnection?.deleteSurroundingText(1, 0)
     }
-    
+
     // -- Recording Logic --
-    
+
     private fun startRecording() {
         Logger.d("VoiceImeService", "Starting recording")
         isRecording = true
         currentPartialText = ""
         finalRawText = ""
         timeMetrics = TimeMetrics.startNow()
-        
+
         recognizerEngine.start(
             onPartial = { partialText ->
                 mainHandler.post {
@@ -156,41 +160,44 @@ class VoiceImeService : InputMethodService(), ImeKeyboardView.KeyboardListener {
             }
         )
     }
-    
+
     private fun stopRecording() {
         Logger.d("VoiceImeService", "Stopping recording")
         isRecording = false
         recognizerEngine.stop()
     }
-    
+
     private fun handleFinalResult(rawText: String) {
         Logger.d("VoiceImeService", "Final result: $rawText")
-        
+
         finalRawText = rawText
         val latency = timeMetrics?.elapsedMillis() ?: 0
-        
+
         // Format the text
         val mode = keyboardView.getCurrentMode()
         val formattedText = formatterPipeline.format(rawText, mode)
-        
+
         Logger.d("VoiceImeService", "Formatted text: $formattedText")
-        
+
         // Commit the text
         val committed = commitText(formattedText)
-        
+
         // Save to history
         saveToHistory(rawText, formattedText, mode, committed, latency)
-        
+
         // Clear preview
         keyboardView.clearPreview()
+
+        // Haptic feedback on completion
+        vibrate(30)
     }
-    
+
     private fun handleError(throwable: Throwable) {
         Logger.e("VoiceImeService", "Recognition error", throwable)
         keyboardView.showError("Error: ${throwable.message}")
         keyboardView.clearPreview()
         isRecording = false
-        
+
         // Save failed attempt
         saveToHistory(
             rawText = currentPartialText,
@@ -201,7 +208,7 @@ class VoiceImeService : InputMethodService(), ImeKeyboardView.KeyboardListener {
             status = DictationStatus.FAILED
         )
     }
-    
+
     private fun commitText(text: String): Boolean {
         val committed = inputCommitter.commitText(currentInputConnection, text)
         if (!committed) {
@@ -209,7 +216,7 @@ class VoiceImeService : InputMethodService(), ImeKeyboardView.KeyboardListener {
         }
         return committed
     }
-    
+
     private fun saveToHistory(
         rawText: String,
         finalText: String,
@@ -226,7 +233,7 @@ class VoiceImeService : InputMethodService(), ImeKeyboardView.KeyboardListener {
         } else {
             DictationStatus.SUCCESS
         }
-        
+
         app?.historyRepository?.saveEntry(
             rawText = rawText,
             finalText = finalText,
@@ -235,11 +242,20 @@ class VoiceImeService : InputMethodService(), ImeKeyboardView.KeyboardListener {
             latencyMillis = latency
         )
     }
-    
+
     private fun hasRecordAudioPermission(): Boolean {
         return ContextCompat.checkSelfPermission(
             this,
             Manifest.permission.RECORD_AUDIO
         ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun vibrate(milliseconds: Long) {
+        try {
+            val vibrator = getSystemService(VIBRATOR_SERVICE) as? Vibrator
+            vibrator?.vibrate(milliseconds)
+        } catch (e: Exception) {
+            // Ignore vibration errors
+        }
     }
 }

@@ -2,8 +2,11 @@ package com.shehraan.superwhispermini.settings
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -20,83 +23,86 @@ import kotlinx.coroutines.launch
 
 /**
  * Main Activity for onboarding, settings, and history.
- * 
+ *
  * Provides:
- * - Enable keyboard button (opens system settings)
+ * - Status text for keyboard enabled/mic permission
  * - Switch keyboard button (shows input method picker)
  * - History list with copy/retry
- * - Basic settings
+ * - Mode selection (Raw/Message)
  */
 class MainActivity : AppCompatActivity() {
-    
+
     private lateinit var viewModel: SettingsViewModel
     private lateinit var historyAdapter: HistoryAdapter
-    
-    private lateinit var enableKeyboardButton: Button
+
+    private lateinit var keyboardEnabledStatus: TextView
+    private lateinit var permissionGrantedStatus: TextView
     private lateinit var switchKeyboardButton: Button
-    private lateinit var grantPermissionButton: Button
     private lateinit var voiceModeButton: Button
     private lateinit var messageModeButton: Button
     private lateinit var historyRecyclerView: RecyclerView
-    
+
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) {
             Toast.makeText(this, "Microphone permission granted", Toast.LENGTH_SHORT).show()
-            updatePermissionButton()
+            updateStatusTexts()
         } else {
             Toast.makeText(this, "Microphone permission required for voice input", Toast.LENGTH_LONG).show()
         }
     }
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        
+
         viewModel = ViewModelProvider(this)[SettingsViewModel::class.java]
-        
+
         setupViews()
         setupHistory()
         observeViewModel()
+
+        // Long press on status texts to trigger the actions
+        keyboardEnabledStatus.setOnLongClickListener {
+            val intent = viewModel.openKeyboardSettings()
+            startActivity(intent)
+            true
+        }
+
+        permissionGrantedStatus.setOnLongClickListener {
+            requestMicrophonePermission()
+            true
+        }
     }
-    
+
     override fun onResume() {
         super.onResume()
         viewModel.refreshKeyboardStatus()
-        updatePermissionButton()
+        updateStatusTexts()
     }
-    
+
     private fun setupViews() {
-        enableKeyboardButton = findViewById(R.id.enableKeyboardButton)
+        keyboardEnabledStatus = findViewById(R.id.keyboardEnabledStatus)
+        permissionGrantedStatus = findViewById(R.id.permissionGrantedStatus)
         switchKeyboardButton = findViewById(R.id.switchKeyboardButton)
-        grantPermissionButton = findViewById(R.id.grantPermissionButton)
         voiceModeButton = findViewById(R.id.voiceModeButton)
         messageModeButton = findViewById(R.id.messageModeButton)
         historyRecyclerView = findViewById(R.id.historyRecyclerView)
-        
-        enableKeyboardButton.setOnClickListener {
-            val intent = viewModel.openKeyboardSettings()
-            startActivity(intent)
-        }
-        
+
         switchKeyboardButton.setOnClickListener {
             viewModel.showInputMethodPicker()
         }
-        
-        grantPermissionButton.setOnClickListener {
-            requestMicrophonePermission()
-        }
-        
+
         voiceModeButton.setOnClickListener {
             viewModel.setDictationMode(DictationMode.RAW)
         }
-        
+
         messageModeButton.setOnClickListener {
             viewModel.setDictationMode(DictationMode.MESSAGE)
         }
     }
-    
+
     private fun setupHistory() {
         historyAdapter = HistoryAdapter(
             onCopyClick = { text ->
@@ -106,27 +112,22 @@ class MainActivity : AppCompatActivity() {
                 viewModel.deleteHistoryEntry(id)
             }
         )
-        
+
         historyRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = historyAdapter
         }
     }
-    
+
     private fun observeViewModel() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.isKeyboardEnabled.collect { enabled ->
-                    enableKeyboardButton.isEnabled = !enabled
-                    enableKeyboardButton.text = if (enabled) {
-                        "Keyboard Enabled"
-                    } else {
-                        "Enable Keyboard"
-                    }
+                    updateKeyboardStatusText(enabled)
                 }
             }
         }
-        
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.historyEntries.collect { entries ->
@@ -134,7 +135,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.currentMode.collect { mode ->
@@ -143,38 +144,66 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    
-    private fun updateModeButtons(currentMode: DictationMode) {
-        when (currentMode) {
-            DictationMode.RAW -> {
-                voiceModeButton.isEnabled = false
-                messageModeButton.isEnabled = true
-                voiceModeButton.alpha = 0.5f
-                messageModeButton.alpha = 1.0f
-            }
-            DictationMode.MESSAGE -> {
-                voiceModeButton.isEnabled = true
-                messageModeButton.isEnabled = false
-                voiceModeButton.alpha = 1.0f
-                messageModeButton.alpha = 0.5f
-            }
-        }
-    }
-    
-    private fun updatePermissionButton() {
+
+    private fun updateStatusTexts() {
         val hasPermission = ContextCompat.checkSelfPermission(
             this,
             Manifest.permission.RECORD_AUDIO
         ) == PackageManager.PERMISSION_GRANTED
-        
-        grantPermissionButton.isEnabled = !hasPermission
-        grantPermissionButton.text = if (hasPermission) {
-            "Microphone Permission Granted"
+
+        updatePermissionStatusText(hasPermission)
+    }
+
+    private fun updateKeyboardStatusText(enabled: Boolean) {
+        keyboardEnabledStatus.text = if (enabled) {
+            "✅ Keyboard enabled"
         } else {
-            "Grant Microphone Permission"
+            "⌛ Keyboard not enabled (long press to enable)"
+        }
+        keyboardEnabledStatus.setTextColor(
+            if (enabled) ContextCompat.getColor(this, android.R.color.holo_green_dark)
+            else ContextCompat.getColor(this, android.R.color.darker_gray)
+        )
+    }
+
+    private fun updatePermissionStatusText(hasPermission: Boolean) {
+        permissionGrantedStatus.text = if (hasPermission) {
+            "✅ Microphone permission granted"
+        } else {
+            "⌛ Microphone permission not granted (long press to grant)"
+        }
+        permissionGrantedStatus.setTextColor(
+            if (hasPermission) ContextCompat.getColor(this, android.R.color.holo_green_dark)
+            else ContextCompat.getColor(this, android.R.color.darker_gray)
+        )
+    }
+
+    private fun updateModeButtons(currentMode: DictationMode) {
+        val darkGreen = Color.parseColor("#4CAF50")   // Material Green 500 (ON) - matches Switch Keyboard button
+        val lightGreen = Color.parseColor("#90EE90")  // Light green (OFF)
+        val black = Color.parseColor("#000000")       // Black text (ON)
+        val grey = Color.parseColor("#666666")        // Grey text (OFF)
+        
+        when (currentMode) {
+            DictationMode.RAW -> {
+                // Raw is ON: dark green background + black text
+                voiceModeButton.backgroundTintList = ColorStateList.valueOf(darkGreen)
+                voiceModeButton.setTextColor(black)
+                // Message is OFF: light green background + grey text
+                messageModeButton.backgroundTintList = ColorStateList.valueOf(lightGreen)
+                messageModeButton.setTextColor(grey)
+            }
+            DictationMode.MESSAGE -> {
+                // Raw is OFF: light green background + grey text
+                voiceModeButton.backgroundTintList = ColorStateList.valueOf(lightGreen)
+                voiceModeButton.setTextColor(grey)
+                // Message is ON: dark green background + black text
+                messageModeButton.backgroundTintList = ColorStateList.valueOf(darkGreen)
+                messageModeButton.setTextColor(black)
+            }
         }
     }
-    
+
     private fun requestMicrophonePermission() {
         when {
             ContextCompat.checkSelfPermission(
@@ -192,7 +221,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    
+
     private fun copyToClipboard(text: String) {
         val clipboard = getSystemService(CLIPBOARD_SERVICE) as android.content.ClipboardManager
         val clip = android.content.ClipData.newPlainText("Superwhisper", text)

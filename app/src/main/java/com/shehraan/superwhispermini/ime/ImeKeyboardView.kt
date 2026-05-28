@@ -16,9 +16,9 @@ import com.shehraan.superwhispermini.util.Logger
 /**
  * Custom keyboard view for voice input.
  * Features:
- * - Large press-and-hold mic button (circular)
+ * - Large circular press-and-hold mic button with ripple effect
  * - Settings icon button
- * - Mode toggle (Raw/Message)
+ * - Mode toggle (Voice/Message)
  * - Partial transcript preview
  * - Recording state indicator
  */
@@ -61,10 +61,12 @@ class ImeKeyboardView @JvmOverloads constructor(
         previewText = findViewById(R.id.previewText)
         statusText = findViewById(R.id.statusText)
         
-        // Mic button - press and hold
-        micButton.setOnTouchListener { _, event ->
+        // Mic button - press and hold with ripple effect
+        micButton.setOnTouchListener { view, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
+                    // Trigger ripple
+                    view.isPressed = true
                     if (!isRecording) {
                         isRecording = true
                         updateRecordingState()
@@ -73,6 +75,7 @@ class ImeKeyboardView @JvmOverloads constructor(
                     true
                 }
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    view.isPressed = false
                     if (isRecording) {
                         isRecording = false
                         updateRecordingState()
@@ -154,15 +157,15 @@ class ImeKeyboardView @JvmOverloads constructor(
     
     private fun updateRecordingState() {
         if (isRecording) {
-            // Recording state - red background
-            micButton.setBackgroundResource(R.drawable.mic_button_circle_active)
+            // Recording state - red background with ripple
+            micButton.setBackgroundResource(R.drawable.mic_button_ripple_active)
             micButton.setImageResource(R.drawable.ic_mic_2d)
             micButton.setColorFilter(Color.WHITE)
             setStatus("Listening...")
             Logger.d("ImeKeyboardView", "Recording state: ON")
         } else {
-            // Idle state - green background
-            micButton.setBackgroundResource(R.drawable.mic_button_circle)
+            // Idle state - green background with ripple
+            micButton.setBackgroundResource(R.drawable.mic_button_ripple)
             micButton.setImageResource(R.drawable.ic_mic_2d)
             micButton.setColorFilter(Color.WHITE)
             setStatus("")
@@ -173,13 +176,13 @@ class ImeKeyboardView @JvmOverloads constructor(
     private fun updateModeDisplay() {
         when (currentMode) {
             DictationMode.RAW -> {
-                modeToggleButton.text = "RAW"
                 modeToggleButton.setBackgroundColor(Color.parseColor("#757575"))
+                modeToggleButton.text = "Raw"
                 statusText.text = "Raw Mode"
             }
             DictationMode.MESSAGE -> {
-                modeToggleButton.text = "MSG"
                 modeToggleButton.setBackgroundColor(Color.parseColor("#1976D2"))
+                modeToggleButton.text = "Msg"
                 statusText.text = "Message Mode"
             }
         }

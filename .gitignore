@@ -23,6 +23,9 @@ memory-bank*/
 .clinerules/
 .clinerules*
 
+# Draft files
+draft.md
+
 # OS files
 .DS_Store
 Thumbs.db
