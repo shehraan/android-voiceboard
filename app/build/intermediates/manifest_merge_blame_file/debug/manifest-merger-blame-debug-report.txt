@@ -1,0 +1,174 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.shehraan.superwhispermini"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="26"
+9        android:targetSdkVersion="34" />
+10
+11    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+11-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:4:5-71
+11-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:4:22-68
+12    <uses-permission android:name="android.permission.INTERNET" />
+12-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:5:5-67
+12-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:5:22-64
+13
+14    <permission
+14-->[androidx.core:core:1.12.0] /home/sh/.gradle/caches/transforms-3/05365192e8c93a127ae620124358980f/transformed/core-1.12.0/AndroidManifest.xml:22:5-24:47
+15        android:name="com.shehraan.superwhispermini.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+15-->[androidx.core:core:1.12.0] /home/sh/.gradle/caches/transforms-3/05365192e8c93a127ae620124358980f/transformed/core-1.12.0/AndroidManifest.xml:23:9-81
+16        android:protectionLevel="signature" />
+16-->[androidx.core:core:1.12.0] /home/sh/.gradle/caches/transforms-3/05365192e8c93a127ae620124358980f/transformed/core-1.12.0/AndroidManifest.xml:24:9-44
+17
+18    <uses-permission android:name="com.shehraan.superwhispermini.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+18-->[androidx.core:core:1.12.0] /home/sh/.gradle/caches/transforms-3/05365192e8c93a127ae620124358980f/transformed/core-1.12.0/AndroidManifest.xml:26:5-97
+18-->[androidx.core:core:1.12.0] /home/sh/.gradle/caches/transforms-3/05365192e8c93a127ae620124358980f/transformed/core-1.12.0/AndroidManifest.xml:26:22-94
+19
+20    <application
+20-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:7:5-41:19
+21        android:name="com.shehraan.superwhispermini.SuperwhisperMiniApp"
+21-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:8:9-44
+22        android:allowBackup="true"
+22-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:9:9-35
+23        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+23-->[androidx.core:core:1.12.0] /home/sh/.gradle/caches/transforms-3/05365192e8c93a127ae620124358980f/transformed/core-1.12.0/AndroidManifest.xml:28:18-86
+24        android:debuggable="true"
+25        android:extractNativeLibs="false"
+26        android:icon="@mipmap/ic_launcher"
+26-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:10:9-43
+27        android:label="@string/app_name"
+27-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:11:9-41
+28        android:roundIcon="@mipmap/ic_launcher_round"
+28-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:12:9-54
+29        android:supportsRtl="true"
+29-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:13:9-35
+30        android:testOnly="true"
+31        android:theme="@style/Theme.SuperwhisperMini" >
+31-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:14:9-54
+32
+33        <!-- Main Activity for settings and onboarding -->
+34        <activity
+34-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:17:9-25:20
+35            android:name="com.shehraan.superwhispermini.settings.MainActivity"
+35-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:18:13-50
+36            android:exported="true"
+36-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:19:13-36
+37            android:theme="@style/Theme.SuperwhisperMini" >
+37-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:20:13-58
+38            <intent-filter>
+38-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:21:13-24:29
+39                <action android:name="android.intent.action.MAIN" />
+39-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:22:17-69
+39-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:22:25-66
+40
+41                <category android:name="android.intent.category.LAUNCHER" />
+41-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:23:17-77
+41-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:23:27-74
+42            </intent-filter>
+43        </activity>
+44
+45        <!-- Voice Input Method Service -->
+46        <service
+46-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:28:9-39:19
+47            android:name="com.shehraan.superwhispermini.ime.VoiceImeService"
+47-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:29:13-48
+48            android:exported="true"
+48-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:32:13-36
+49            android:label="@string/ime_name"
+49-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:30:13-45
+50            android:permission="android.permission.BIND_INPUT_METHOD" >
+50-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:31:13-70
+51            <intent-filter>
+51-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:33:13-35:29
+52                <action android:name="android.view.InputMethod" />
+52-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:34:17-67
+52-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:34:25-64
+53            </intent-filter>
+54
+55            <meta-data
+55-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:36:13-38:50
+56                android:name="android.view.im"
+56-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:37:17-47
+57                android:resource="@xml/method" />
+57-->/home/sh/code/projects/superWhisper/app/src/main/AndroidManifest.xml:38:17-47
+58        </service>
+59
+60        <provider
+60-->[androidx.emoji2:emoji2:1.2.0] /home/sh/.gradle/caches/transforms-3/70da4e4e1388184bab94ea674e68fd8f/transformed/emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
+61            android:name="androidx.startup.InitializationProvider"
+61-->[androidx.emoji2:emoji2:1.2.0] /home/sh/.gradle/caches/transforms-3/70da4e4e1388184bab94ea674e68fd8f/transformed/emoji2-1.2.0/AndroidManifest.xml:25:13-67
+62            android:authorities="com.shehraan.superwhispermini.androidx-startup"
+62-->[androidx.emoji2:emoji2:1.2.0] /home/sh/.gradle/caches/transforms-3/70da4e4e1388184bab94ea674e68fd8f/transformed/emoji2-1.2.0/AndroidManifest.xml:26:13-68
+63            android:exported="false" >
+63-->[androidx.emoji2:emoji2:1.2.0] /home/sh/.gradle/caches/transforms-3/70da4e4e1388184bab94ea674e68fd8f/transformed/emoji2-1.2.0/AndroidManifest.xml:27:13-37
+64            <meta-data
+64-->[androidx.emoji2:emoji2:1.2.0] /home/sh/.gradle/caches/transforms-3/70da4e4e1388184bab94ea674e68fd8f/transformed/emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
+65                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+65-->[androidx.emoji2:emoji2:1.2.0] /home/sh/.gradle/caches/transforms-3/70da4e4e1388184bab94ea674e68fd8f/transformed/emoji2-1.2.0/AndroidManifest.xml:30:17-75
+66                android:value="androidx.startup" />
+66-->[androidx.emoji2:emoji2:1.2.0] /home/sh/.gradle/caches/transforms-3/70da4e4e1388184bab94ea674e68fd8f/transformed/emoji2-1.2.0/AndroidManifest.xml:31:17-49
+67            <meta-data
+67-->[androidx.lifecycle:lifecycle-process:2.7.0] /home/sh/.gradle/caches/transforms-3/b5aa617bebe5bc4c2ae6066dd8ccfdbb/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:29:13-31:52
+68                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+68-->[androidx.lifecycle:lifecycle-process:2.7.0] /home/sh/.gradle/caches/transforms-3/b5aa617bebe5bc4c2ae6066dd8ccfdbb/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:30:17-78
+69                android:value="androidx.startup" />
+69-->[androidx.lifecycle:lifecycle-process:2.7.0] /home/sh/.gradle/caches/transforms-3/b5aa617bebe5bc4c2ae6066dd8ccfdbb/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:31:17-49
+70            <meta-data
+70-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/sh/.gradle/caches/transforms-3/711a527c07c5d7f146ab93115698532f/transformed/profileinstaller-1.3.0/AndroidManifest.xml:29:13-31:52
+71                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+71-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/sh/.gradle/caches/transforms-3/711a527c07c5d7f146ab93115698532f/transformed/profileinstaller-1.3.0/AndroidManifest.xml:30:17-85
+72                android:value="androidx.startup" />
+72-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/sh/.gradle/caches/transforms-3/711a527c07c5d7f146ab93115698532f/transformed/profileinstaller-1.3.0/AndroidManifest.xml:31:17-49
+73        </provider>
+74
+75        <service
+75-->[androidx.room:room-runtime:2.6.1] /home/sh/.gradle/caches/transforms-3/c2cd43fde83dd9a1a88da93eb036147e/transformed/room-runtime-2.6.1/AndroidManifest.xml:24:9-28:63
+76            android:name="androidx.room.MultiInstanceInvalidationService"
+76-->[androidx.room:room-runtime:2.6.1] /home/sh/.gradle/caches/transforms-3/c2cd43fde83dd9a1a88da93eb036147e/transformed/room-runtime-2.6.1/AndroidManifest.xml:25:13-74
+77            android:directBootAware="true"
+77-->[androidx.room:room-runtime:2.6.1] /home/sh/.gradle/caches/transforms-3/c2cd43fde83dd9a1a88da93eb036147e/transformed/room-runtime-2.6.1/AndroidManifest.xml:26:13-43
+78            android:exported="false" />
+78-->[androidx.room:room-runtime:2.6.1] /home/sh/.gradle/caches/transforms-3/c2cd43fde83dd9a1a88da93eb036147e/transformed/room-runtime-2.6.1/AndroidManifest.xml:27:13-37
+79
+80        <receiver
+80-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/sh/.gradle/caches/transforms-3/711a527c07c5d7f146ab93115698532f/transformed/profileinstaller-1.3.0/AndroidManifest.xml:34:9-52:20
+81            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+81-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/sh/.gradle/caches/transforms-3/711a527c07c5d7f146ab93115698532f/transformed/profileinstaller-1.3.0/AndroidManifest.xml:35:13-76
+82            android:directBootAware="false"
+82-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/sh/.gradle/caches/transforms-3/711a527c07c5d7f146ab93115698532f/transformed/profileinstaller-1.3.0/AndroidManifest.xml:36:13-44
+83            android:enabled="true"
+83-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/sh/.gradle/caches/transforms-3/711a527c07c5d7f146ab93115698532f/transformed/profileinstaller-1.3.0/AndroidManifest.xml:37:13-35
+84            android:exported="true"
+84-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/sh/.gradle/caches/transforms-3/711a527c07c5d7f146ab93115698532f/transformed/profileinstaller-1.3.0/AndroidManifest.xml:38:13-36
+85            android:permission="android.permission.DUMP" >
+85-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/sh/.gradle/caches/transforms-3/711a527c07c5d7f146ab93115698532f/transformed/profileinstaller-1.3.0/AndroidManifest.xml:39:13-57
+86            <intent-filter>
+86-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/sh/.gradle/caches/transforms-3/711a527c07c5d7f146ab93115698532f/transformed/profileinstaller-1.3.0/AndroidManifest.xml:40:13-42:29
+87                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+87-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/sh/.gradle/caches/transforms-3/711a527c07c5d7f146ab93115698532f/transformed/profileinstaller-1.3.0/AndroidManifest.xml:41:17-91
+87-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/sh/.gradle/caches/transforms-3/711a527c07c5d7f146ab93115698532f/transformed/profileinstaller-1.3.0/AndroidManifest.xml:41:25-88
+88            </intent-filter>
+89            <intent-filter>
+89-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/sh/.gradle/caches/transforms-3/711a527c07c5d7f146ab93115698532f/transformed/profileinstaller-1.3.0/AndroidManifest.xml:43:13-45:29
+90                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+90-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/sh/.gradle/caches/transforms-3/711a527c07c5d7f146ab93115698532f/transformed/profileinstaller-1.3.0/AndroidManifest.xml:44:17-85
+90-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/sh/.gradle/caches/transforms-3/711a527c07c5d7f146ab93115698532f/transformed/profileinstaller-1.3.0/AndroidManifest.xml:44:25-82
+91            </intent-filter>
+92            <intent-filter>
+92-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/sh/.gradle/caches/transforms-3/711a527c07c5d7f146ab93115698532f/transformed/profileinstaller-1.3.0/AndroidManifest.xml:46:13-48:29
+93                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+93-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/sh/.gradle/caches/transforms-3/711a527c07c5d7f146ab93115698532f/transformed/profileinstaller-1.3.0/AndroidManifest.xml:47:17-88
+93-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/sh/.gradle/caches/transforms-3/711a527c07c5d7f146ab93115698532f/transformed/profileinstaller-1.3.0/AndroidManifest.xml:47:25-85
+94            </intent-filter>
+95            <intent-filter>
+95-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/sh/.gradle/caches/transforms-3/711a527c07c5d7f146ab93115698532f/transformed/profileinstaller-1.3.0/AndroidManifest.xml:49:13-51:29
+96                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+96-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/sh/.gradle/caches/transforms-3/711a527c07c5d7f146ab93115698532f/transformed/profileinstaller-1.3.0/AndroidManifest.xml:50:17-95
+96-->[androidx.profileinstaller:profileinstaller:1.3.0] /home/sh/.gradle/caches/transforms-3/711a527c07c5d7f146ab93115698532f/transformed/profileinstaller-1.3.0/AndroidManifest.xml:50:25-92
+97            </intent-filter>
+98        </receiver>
+99    </application>
+100
+101</manifest>

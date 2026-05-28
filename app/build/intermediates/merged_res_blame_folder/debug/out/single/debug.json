@@ -1,0 +1,50 @@
+[
+    {
+        "merged": "com.shehraan.superwhispermini.app-merged_res-43:/drawable_ic_voice_mode.xml.flat",
+        "source": "com.shehraan.superwhispermini.app-main-45:/drawable/ic_voice_mode.xml"
+    },
+    {
+        "merged": "com.shehraan.superwhispermini.app-merged_res-43:/layout_item_history.xml.flat",
+        "source": "com.shehraan.superwhispermini.app-main-45:/layout/item_history.xml"
+    },
+    {
+        "merged": "com.shehraan.superwhispermini.app-merged_res-43:/drawable_ic_mic.xml.flat",
+        "source": "com.shehraan.superwhispermini.app-main-45:/drawable/ic_mic.xml"
+    },
+    {
+        "merged": "com.shehraan.superwhispermini.app-merged_res-43:/layout_activity_main.xml.flat",
+        "source": "com.shehraan.superwhispermini.app-main-45:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.shehraan.superwhispermini.app-merged_res-43:/layout_keyboard_view.xml.flat",
+        "source": "com.shehraan.superwhispermini.app-main-45:/layout/keyboard_view.xml"
+    },
+    {
+        "merged": "com.shehraan.superwhispermini.app-merged_res-43:/xml_method.xml.flat",
+        "source": "com.shehraan.superwhispermini.app-main-45:/xml/method.xml"
+    },
+    {
+        "merged": "com.shehraan.superwhispermini.app-merged_res-43:/drawable_ic_mic_active.xml.flat",
+        "source": "com.shehraan.superwhispermini.app-main-45:/drawable/ic_mic_active.xml"
+    },
+    {
+        "merged": "com.shehraan.superwhispermini.app-merged_res-43:/mipmap-anydpi_ic_launcher_round.xml.flat",
+        "source": "com.shehraan.superwhispermini.app-main-45:/mipmap-anydpi/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.shehraan.superwhispermini.app-merged_res-43:/mipmap-anydpi_ic_launcher.xml.flat",
+        "source": "com.shehraan.superwhispermini.app-main-45:/mipmap-anydpi/ic_launcher.xml"
+    },
+    {
+        "merged": "com.shehraan.superwhispermini.app-merged_res-43:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.shehraan.superwhispermini.app-main-45:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.shehraan.superwhispermini.app-merged_res-43:/drawable_mic_button_background.xml.flat",
+        "source": "com.shehraan.superwhispermini.app-main-45:/drawable/mic_button_background.xml"
+    },
+    {
+        "merged": "com.shehraan.superwhispermini.app-merged_res-43:/drawable_ic_message_mode.xml.flat",
+        "source": "com.shehraan.superwhispermini.app-main-45:/drawable/ic_message_mode.xml"
+    }
+]
