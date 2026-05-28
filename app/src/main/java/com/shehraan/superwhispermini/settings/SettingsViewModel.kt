@@ -43,7 +43,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     val historyEntries: StateFlow<List<DictationHistoryEntry>> = _historyEntries
     
     val currentMode: Flow<DictationMode> = dataStore.data.map { prefs ->
-        val modeName = prefs[PreferencesKeys.DICTATION_MODE] ?: DictationMode.VOICE.name
+        val modeName = prefs[PreferencesKeys.DICTATION_MODE] ?: DictationMode.RAW.name
         DictationMode.valueOf(modeName)
     }
     

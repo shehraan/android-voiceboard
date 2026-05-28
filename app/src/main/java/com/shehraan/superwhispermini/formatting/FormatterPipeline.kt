@@ -6,13 +6,13 @@ import android.content.Context
  * Enum for dictation modes.
  */
 enum class DictationMode {
-    VOICE,      // Minimal cleanup
+    RAW,        // Minimal cleanup
     MESSAGE     // Conservative formatting with filler removal
 }
 
 /**
  * Orchestrates the formatting pipeline:
- * 1. Mode-specific formatting (Voice or Message mode)
+ * 1. Mode-specific formatting (Raw or Message mode)
  * 2. Custom replacements application
  */
 class FormatterPipeline(context: Context) {
@@ -28,13 +28,13 @@ class FormatterPipeline(context: Context) {
      * @param mode The dictation mode
      * @return Formatted text with replacements applied
      */
-    fun format(text: String, mode: DictationMode = DictationMode.VOICE): String {
+    fun format(text: String, mode: DictationMode = DictationMode.RAW): String {
         // Step 1: Apply replacements first (so "period" becomes "." before sentence capitalization)
         val withReplacements = replacementEngine.applyReplacements(text)
         
         // Step 2: Apply mode-specific formatting
         val modeFormatted = when (mode) {
-            DictationMode.VOICE -> voiceFormatter.format(withReplacements)
+            DictationMode.RAW -> voiceFormatter.format(withReplacements)
             DictationMode.MESSAGE -> messageFormatter.format(withReplacements)
         }
         
@@ -42,9 +42,9 @@ class FormatterPipeline(context: Context) {
     }
     
     /**
-     * Format text with Voice mode (convenience method).
+     * Format text with Raw mode (convenience method).
      */
-    fun formatVoice(text: String): String = format(text, DictationMode.VOICE)
+    fun formatRaw(text: String): String = format(text, DictationMode.RAW)
     
     /**
      * Format text with Message mode (convenience method).

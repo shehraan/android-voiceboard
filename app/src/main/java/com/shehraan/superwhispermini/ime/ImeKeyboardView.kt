@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.ImageButton
 import android.widget.TextView
 import com.shehraan.superwhispermini.R
 import com.shehraan.superwhispermini.formatting.DictationMode
@@ -15,8 +16,9 @@ import com.shehraan.superwhispermini.util.Logger
 /**
  * Custom keyboard view for voice input.
  * Features:
- * - Large press-and-hold mic button
- * - Mode toggle (Voice/Message)
+ * - Large press-and-hold mic button (circular)
+ * - Settings icon button
+ * - Mode toggle (Raw/Message)
  * - Partial transcript preview
  * - Recording state indicator
  */
@@ -36,14 +38,14 @@ class ImeKeyboardView @JvmOverloads constructor(
     
     var keyboardListener: KeyboardListener? = null
     
-    private lateinit var micButton: Button
+    private lateinit var micButton: ImageButton
     private lateinit var modeToggleButton: Button
-    private lateinit var settingsButton: Button
+    private lateinit var settingsButton: ImageButton
     private lateinit var backspaceButton: Button
     private lateinit var previewText: TextView
     private lateinit var statusText: TextView
     
-    private var currentMode: DictationMode = DictationMode.VOICE
+    private var currentMode: DictationMode = DictationMode.RAW
     private var isRecording = false
     
     init {
@@ -84,10 +86,10 @@ class ImeKeyboardView @JvmOverloads constructor(
         
         // Mode toggle
         modeToggleButton.setOnClickListener {
-            currentMode = if (currentMode == DictationMode.VOICE) {
+            currentMode = if (currentMode == DictationMode.RAW) {
                 DictationMode.MESSAGE
             } else {
-                DictationMode.VOICE
+                DictationMode.RAW
             }
             updateModeDisplay()
             keyboardListener?.onModeToggled(currentMode)
@@ -152,13 +154,17 @@ class ImeKeyboardView @JvmOverloads constructor(
     
     private fun updateRecordingState() {
         if (isRecording) {
-            micButton.text = "🎙️"
-            micButton.setBackgroundColor(Color.parseColor("#FF4444"))
+            // Recording state - red background
+            micButton.setBackgroundResource(R.drawable.mic_button_circle_active)
+            micButton.setImageResource(R.drawable.ic_mic_2d)
+            micButton.setColorFilter(Color.WHITE)
             setStatus("Listening...")
             Logger.d("ImeKeyboardView", "Recording state: ON")
         } else {
-            micButton.text = "🎤"
-            micButton.setBackgroundColor(Color.parseColor("#4CAF50"))
+            // Idle state - green background
+            micButton.setBackgroundResource(R.drawable.mic_button_circle)
+            micButton.setImageResource(R.drawable.ic_mic_2d)
+            micButton.setColorFilter(Color.WHITE)
             setStatus("")
             Logger.d("ImeKeyboardView", "Recording state: OFF")
         }
@@ -166,12 +172,14 @@ class ImeKeyboardView @JvmOverloads constructor(
     
     private fun updateModeDisplay() {
         when (currentMode) {
-            DictationMode.VOICE -> {
-                modeToggleButton.text = "M"
-                statusText.text = "Voice Mode"
+            DictationMode.RAW -> {
+                modeToggleButton.text = "RAW"
+                modeToggleButton.setBackgroundColor(Color.parseColor("#757575"))
+                statusText.text = "Raw Mode"
             }
             DictationMode.MESSAGE -> {
-                modeToggleButton.text = "M"
+                modeToggleButton.text = "MSG"
+                modeToggleButton.setBackgroundColor(Color.parseColor("#1976D2"))
                 statusText.text = "Message Mode"
             }
         }

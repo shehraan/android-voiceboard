@@ -39,7 +39,12 @@ class Converters {
     
     @TypeConverter
     fun toDictationMode(value: String): DictationMode {
-        return DictationMode.valueOf(value)
+        return try {
+            DictationMode.valueOf(value)
+        } catch (e: IllegalArgumentException) {
+            // Handle old database entries that used "VOICE" instead of "RAW"
+            if (value == "VOICE") DictationMode.RAW else DictationMode.RAW
+        }
     }
     
     @TypeConverter

@@ -1,7 +1,7 @@
 package com.shehraan.superwhispermini.formatting
 
 /**
- * Voice Mode: minimal cleanup.
+ * Raw Mode: minimal cleanup.
  * Just basic capitalization and spacing fixes.
  */
 class VoiceModeFormatter : TextFormatter {

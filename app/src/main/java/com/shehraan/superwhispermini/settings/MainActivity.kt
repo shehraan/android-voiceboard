@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         }
         
         voiceModeButton.setOnClickListener {
-            viewModel.setDictationMode(DictationMode.VOICE)
+            viewModel.setDictationMode(DictationMode.RAW)
         }
         
         messageModeButton.setOnClickListener {
@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity() {
     
     private fun updateModeButtons(currentMode: DictationMode) {
         when (currentMode) {
-            DictationMode.VOICE -> {
+            DictationMode.RAW -> {
                 voiceModeButton.isEnabled = false
                 messageModeButton.isEnabled = true
                 voiceModeButton.alpha = 0.5f

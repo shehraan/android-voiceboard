@@ -30,36 +30,39 @@
         android:gravity="center">
 
         <!-- Settings button -->
-        <Button
+        <ImageButton
             android:id="@+id/settingsButton"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:text="S"
-            android:textSize="20sp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/ic_settings"
             android:contentDescription="Settings"
             android:background="#E0E0E0"
+            android:padding="12dp"
+            android:scaleType="centerInside"
             android:layout_marginEnd="8dp" />
 
         <!-- Mode toggle button -->
         <Button
             android:id="@+id/modeToggleButton"
-            android:layout_width="60dp"
+            android:layout_width="72dp"
             android:layout_height="60dp"
-            android:text="M"
-            android:textSize="20sp"
+            android:text="RAW"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
             android:contentDescription="Toggle mode"
-            android:background="#E0E0E0"
+            android:background="#757575"
             android:layout_marginEnd="16dp" />
 
-        <!-- Mic button (large, centered) -->
-        <Button
+        <!-- Mic button (circular) -->
+        <ImageButton
             android:id="@+id/micButton"
-            android:layout_width="80dp"
-            android:layout_height="70dp"
-            android:text="🎤"
-            android:textSize="32sp"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:src="@drawable/ic_mic_2d"
             android:contentDescription="Microphone"
-            android:background="#4CAF50"
+            android:background="@drawable/mic_button_circle"
+            android:padding="16dp"
+            android:scaleType="centerInside"
             android:layout_marginEnd="16dp" />
 
         <!-- Backspace button -->

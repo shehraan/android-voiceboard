@@ -45,7 +45,7 @@ class HistoryAdapter(
             finalTextView.text = entry.finalText
             
             val modeText = when (entry.mode) {
-                DictationMode.VOICE -> "Voice"
+                DictationMode.RAW -> "Raw"
                 DictationMode.MESSAGE -> "Message"
             }
             
