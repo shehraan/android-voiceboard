@@ -11,13 +11,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SuperwhisperMini">
+        android:theme="@style/Theme.Voiceboard">
 
         <!-- Main Activity for settings and onboarding -->
         <activity
             android:name=".settings.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.SuperwhisperMini">
+            android:theme="@style/Theme.Voiceboard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Superwhisper Mini</string>
-    <string name="ime_name">Superwhisper Mini</string>
+    <string name="app_name">Voiceboard</string>
+    <string name="ime_name">Voiceboard</string>
     <string name="subtype_en_US">English (US)</string>
 </resources>

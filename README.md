@@ -1,8 +1,10 @@
-# Superwhisper Mini IME for Android
+# Voiceboard - Voice IME for Android
+
+<img src="app.jpg" width="45%" /> <img src="keyboard.jpg" width="45%" />
 
 ## Why this exists
 
-This is a focused Android proof-of-work for Superwhisper's Android Engineer role. The goal is not full product parity. The goal is to **prove the Android wedge**: system-wide voice input, on-device-first speech, direct insertion, and low-friction UX.
+This is a focused Android proof-of-work for a voice-first IME. The goal is not full product parity. The goal is to **prove the Android wedge**: system-wide voice input, on-device-first speech, direct insertion, and low-friction UX.
 
 The project prioritizes a working demo over feature completeness, following the architecture rules strictly:
 - Kotlin-first
@@ -29,7 +31,7 @@ The project prioritizes a working demo over feature completeness, following the 
 ### Package Structure
 
 ```
-com.shehraan.superwhispermini/
+com.shehraan.voiceboard/
 ├── ime/
 │   ├── VoiceImeService.kt          # InputMethodService entry point
 │   ├── ImeKeyboardView.kt          # Custom keyboard UI
@@ -133,7 +135,7 @@ The current implementation uses Android's on-device recognizer for speed. A prod
 
 ```bash
 # Clone or extract project
-cd SuperwhisperMini
+cd Voiceboard
 
 # Open in Android Studio or build from command line
 ./gradlew assembleDebug
@@ -146,18 +148,18 @@ cd SuperwhisperMini
 
 1. **Install APK** on your Android device
 
-2. **Open the app** - You'll see "Superwhisper Mini" with Setup buttons
+2. **Open the app** - You'll see "Voiceboard" with Setup buttons
 
 3. **Grant microphone permission** - Tap "Grant Microphone Permission"
 
 4. **Enable keyboard** - Tap "Enable Keyboard" button (opens system settings)
-   - Toggle on "Superwhisper Mini" in the list
+   - Toggle on "Voiceboard" in the list
    - Confirm the security warning
 
 5. **Switch to the keyboard** - Go to any app with a text field (Messages, Notes, etc.)
    - Tap the text field
    - Pull down the notification shade
-   - Tap "Select keyboard" and choose "Superwhisper Mini"
+   - Tap "Select keyboard" and choose "Voiceboard"
    - OR tap "Switch Keyboard" in the app
 
 6. **Dictate** - Press and hold the large green mic button
